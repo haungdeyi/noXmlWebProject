@@ -6,6 +6,6 @@
     <title>Title</title>
 </head>
 <body>
-  <div>主页面</div>
+  <div>nginx负载均衡主页面</div>
 </body>
 </html>

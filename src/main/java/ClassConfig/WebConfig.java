@@ -1,16 +1,22 @@
 package ClassConfig;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,13 +25,15 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"controller"})
+//混合使用xml配置文件
+//@ImportResource(locations = {"classpath:springmvc.xml"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     //在容器中注册jsp的视图解析器的bean
     @Bean
     public ViewResolver createViewResolver(){
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEN-INF/views/");
+        viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
         viewResolver.setExposeContextBeansAsAttributes(true);
         return viewResolver;
@@ -35,14 +43,29 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public MappingJackson2HttpMessageConverter getMappingJackson2HttpMessageConverter(){
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+
+        //设置json格式的转换
         List<MediaType> mediaTypeList = new ArrayList<MediaType>();
-        mediaTypeList.add(MediaType.parseMediaType("application/json;charset=UTF-8"));
+        mediaTypeList.add(MediaType.APPLICATION_JSON_UTF8);
         mappingJackson2HttpMessageConverter.setSupportedMediaTypes(mediaTypeList);
+
+        //设置日期格式的转换
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
+
         return mappingJackson2HttpMessageConverter;
     }
 
-    //配置处理静态资源的servlet
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        super.configureMessageConverters(converters);
+        //将自定义的json消息转换器添加到消息转换器集中才生效
+        //在javaConfig类中获取bean有两种方式：1、直接通过调用产生该bean的方法获取，2、通过传入参数的形式获取
+        converters.add(getMappingJackson2HttpMessageConverter());
+    }
 
+    //配置处理静态资源的servlet
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         //对静态资源的请求转发到容器缺省的servlet,而不使用 DispatcherServlet
