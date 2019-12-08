@@ -1,17 +1,20 @@
 package ClassConfig;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import custom.CustomInterceptor;
+import custom.CustomParamConvter;
+import custom.CustomParamValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.validation.Validator;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -57,6 +60,29 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return mappingJackson2HttpMessageConverter;
     }
 
+    //添加拦截器（请求第一步）
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        super.addInterceptors(registry);
+        InterceptorRegistration ir = registry.addInterceptor(new CustomInterceptor());
+        //设置拦截的路径
+        ir.addPathPatterns("/linkToMainPage");
+    }
+
+    //添加参数转换器（请求第二步）
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        super.addFormatters(registry);
+        registry.addConverter(new CustomParamConvter());
+    }
+
+    //添加参数验证器（请求第三步）
+    @Override
+    public Validator getValidator() {
+        return new CustomParamValidator();
+    }
+
+    //添加消息转换器（响应）
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         super.configureMessageConverters(converters);
