@@ -4,8 +4,8 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
 import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.connection.PoolConfig;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -22,23 +22,23 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class SpringContext {
 
     //声明缓存管理器
-    /*@Bean
-    public CacheManager cacheManager(RedisTemplate redisTemplate){
-        //return new ConcurrentMapCacheManager();
-        return new RedisCacheManager(redisTemplate);
-    }*/
-
     @Bean
+    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory){
+        //通过注入RedisConnectionFactory得到Redis缓存管理器
+        return RedisCacheManager.create(redisConnectionFactory);
+    }
+
+    /*@Bean
     public RedisTemplate<String,String> redisTemplate(RedisConnectionFactory redisConnectionFactory){
         RedisTemplate<String,String> redisTemplate = new RedisTemplate<String, String>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         return  redisTemplate;
-    }
+    }*/
 
     @Bean
     public RedisConnectionFactory jedisConnectionFactory(){
-        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
-        jedisConnectionFactory.setPort(6379);
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("192.168.43.66",6379);
+        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration);
         return jedisConnectionFactory;
     }
 

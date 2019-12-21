@@ -146,11 +146,17 @@
     </dependency>
 
     <!--spring提供的与redis的整合包-->
+    <!--2.0版本之后取消注入RedisTemplate的构造方法，通过bluid方法注入RedisConnectionFactory获得-->
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-redis</artifactId>
       <version>2.2.0.RELEASE</version>
     </dependency>
+   <!-- <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-redis</artifactId>
+      <version>1.8.6.RELEASE</version>
+    </dependency>-->
 
     <!--引入redis客户端jedis依赖的jar包-->
     <dependency>

@@ -30,6 +30,7 @@ import java.util.List;
 @ComponentScan(basePackages = {"controller"})
 //混合使用xml配置文件
 //@ImportResource(locations = {"classpath:springmvc.xml"})
+//在javaConfig类中获取bean有两种方式：1、直接通过调用产生该bean的方法获取，2、通过传入参数的形式获取
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     //在容器中注册jsp的视图解析器的bean
@@ -87,7 +88,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         super.configureMessageConverters(converters);
         //将自定义的json消息转换器添加到消息转换器集中才生效
-        //在javaConfig类中获取bean有两种方式：1、直接通过调用产生该bean的方法获取，2、通过传入参数的形式获取
         converters.add(getMappingJackson2HttpMessageConverter());
     }
 
