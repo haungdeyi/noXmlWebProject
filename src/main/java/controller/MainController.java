@@ -1,12 +1,16 @@
 package controller;
 
+import dao.UserDao;
 import domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -14,6 +18,9 @@ import java.util.Date;
 @Controller
 @RequestMapping("/")
 public class MainController {
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("linkToMainPage")
     public String linkToMainPage(){
@@ -41,7 +48,7 @@ public class MainController {
         }
         else{
             user = new User();
-            user.setUsrename("用户不存在");
+            user.setUsername("用户不存在");
             return user;
         }
     }
@@ -56,5 +63,21 @@ public class MainController {
         else{
             return user;
         }
+    }
+
+    //从数据库查询用户
+    @RequestMapping("getUserById")
+    @ResponseBody
+    //应该是因为spring的root容器已经配置成不扫描Controller，所在无法在这里使用@Cacheable
+    public  User getUserById(Long id) throws Exception {
+         User user = userService.getUserById(id);
+         return user;
+    }
+
+    //清除缓存
+    @RequestMapping("clearCache")
+    @ResponseBody
+    public String clearCache(){
+        return userService.clearCache();
     }
 }

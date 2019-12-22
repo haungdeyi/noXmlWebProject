@@ -15,7 +15,7 @@ public class CustomParamConvter implements Converter<String, User> {
         if(userbody.length == 3) {
             User user = new User();
             user.setId(Long.parseLong(userbody[0]));
-            user.setUsrename(userbody[1]);
+            user.setUsername(userbody[1]);
             user.setPassword(userbody[2]);
             return user;
         }

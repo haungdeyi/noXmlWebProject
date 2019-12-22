@@ -1,9 +1,16 @@
 package domain;
 
-public class User {
+import org.apache.ibatis.type.Alias;
+
+import java.io.Serializable;
+
+@Alias("user")
+public class User implements Serializable{
+    private static final long serialVersionUID = -6250611248687726390L;
     private Long id;
-    private String usrename;
+    private String username;
     private String password;
+    private String gender;
 
     public Long getId() {
         return id;
@@ -13,12 +20,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsrename() {
-        return usrename;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUsrename(String usrename) {
-        this.usrename = usrename;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -27,5 +34,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
