@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import custom.CustomInterceptor;
 import custom.CustomParamConvter;
 import custom.CustomParamValidator;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.*;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -97,4 +94,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         //对静态资源的请求转发到容器缺省的servlet,而不使用 DispatcherServlet
         configurer.enable();
     }
+
+    //添加过滤器
+
 }
