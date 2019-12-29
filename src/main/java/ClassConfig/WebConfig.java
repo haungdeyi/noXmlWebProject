@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.Validator;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
@@ -94,7 +95,5 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         //对静态资源的请求转发到容器缺省的servlet,而不使用 DispatcherServlet
         configurer.enable();
     }
-
-    //添加过滤器
 
 }

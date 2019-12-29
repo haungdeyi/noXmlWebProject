@@ -25,8 +25,8 @@ public class MyWebAppInitializer  extends AbstractAnnotationConfigDispatcherServ
     }
 
     //重写方法，添加过滤器(默认映射到DispatcherServlet的路径上)
-    @Override
+    /*@Override
     protected Filter[] getServletFilters() {
         return new Filter[]{new DelegatingFilterProxy()};
-    }
+    }*/
 }

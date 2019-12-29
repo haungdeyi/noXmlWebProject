@@ -6,7 +6,6 @@
     <title>Title</title>
 </head>
 <body>
-  <div>nginx负载均衡主页面</div>
-  <a href="${contextPath}/shareSession">查看session共享是否成功</a>
+    <h1>session的ID是：<%=session.getId()%></h1>
 </body>
 </html>
