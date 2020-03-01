@@ -2,10 +2,12 @@ package controller;
 
 import dao.UserDao;
 import domain.User;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +22,15 @@ import java.util.Date;
 @RequestMapping("/")
 public class MainController {
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("linkToMainPage")
     public String linkToMainPage(HttpServletRequest request){
+        User user = new User();
+        user.setId(4895989880L);
+        user.setUsername("小哈");
+        userService.addUser(user);
         return "main";
     }
 

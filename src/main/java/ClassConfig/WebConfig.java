@@ -9,6 +9,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.Validator;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.ViewResolver;
@@ -25,10 +26,12 @@ import java.util.List;
 //默认已经注册HttpRequestHandlerMapping和HttpRquestHandlerAdapter
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"controller"})
+//避免重复扫描
+@ComponentScan(basePackages = {"controller"},excludeFilters = {
+        @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Service.class)})
 //混合使用xml配置文件
 //@ImportResource(locations = {"classpath:springmvc.xml"})
-//在javaConfig类中获取bean有两种方式：1、直接通过调用产生该bean的方法获取，2、通过传入参数的形式获取
+//在javaConfig类中获取bean有两种方式：1、直接通过调用产生该bean的方法获取（不推荐），2、通过传入参数的形式获取
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     //在容器中注册jsp的视图解析器的bean

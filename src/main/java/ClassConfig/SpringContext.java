@@ -18,6 +18,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.RedisHt
 import org.springframework.session.web.http.CookieHttpSessionStrategy;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.HashMap;
@@ -26,29 +27,23 @@ import java.util.Map;
 //标注这是一个配置类
 @Configuration
 //导入其他配置类（不能直接在配置类里面创建其他配置类的实例）
-@Import({MybatisConfig.class,RedisHttpSessionConfiguration.class})
+@Import({MybatisConfig.class})//,RedisHttpSessionConfiguration.class
+//开启声明式事务
+@EnableTransactionManagement
 //导入xml配置文件
-//@ImportResource(locations = {"classpath:springmvc.xml"})
+//@ImportResource(locations = {"classpath:spring.xml"})
 //使用配置类的时候开启缓存功能
-@EnableCaching
+//@EnableCaching
 //开启spring使用redis实现session共享功能
-@EnableRedisHttpSession
-//定义properties文件的路径
+//@EnableRedisHttpSession
+//定义properties文件的路径（方式三）
 @PropertySource("classpath:application.properties")
 //指定扫描的包
 @ComponentScan(basePackages = {"service"},excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION,value= EnableWebMvc.class)})
 //定义创建spring容器的java配置类（替代传统的xml文件）
 public class SpringContext {
 
-    //定义解析properties文件的bean
-    @Bean
-    public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        PropertySourcesPlaceholderConfigurer pspc = new PropertySourcesPlaceholderConfigurer();
-        pspc.setLocation(new ClassPathResource("application.properties"));
-        return pspc;
-    }
-
-    //声明缓存管理器
+    /*//声明缓存管理器
     @Bean
     public CacheManager cacheManager(@Qualifier("cacheRedisTemplate") RedisTemplate redisTemplate) {
         //通过注入RedisConnectionFactory得到Redis缓存管理器（2.0版本之后）
@@ -102,5 +97,5 @@ public class SpringContext {
              CookieHttpSessionStrategy cookieHttpSessionStrategy = new CookieHttpSessionStrategy();
              cookieHttpSessionStrategy.setCookieSerializer(cookieSerializer);
              return cookieHttpSessionStrategy;
-    }
+    }*/
 }

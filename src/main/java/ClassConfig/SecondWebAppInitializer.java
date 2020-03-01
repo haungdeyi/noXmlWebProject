@@ -8,7 +8,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 //web容器启动时可以加载多个实现了WebApplicationInitializer的初始化器
-public class SecondWebAppInitializer implements WebApplicationInitializer {
+public class SecondWebAppInitializer /*implements WebApplicationInitializer*/ {
     public void onStartup(ServletContext servletContext) throws ServletException {
         //添加过滤器
         FilterRegistration.Dynamic filter = servletContext.addFilter("springSessionRepositoryFilter",DelegatingFilterProxy.class);

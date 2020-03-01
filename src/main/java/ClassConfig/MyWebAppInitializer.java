@@ -11,7 +11,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  *      类的顶级接口WebApplicationInitializer。这样就会将类路径下WebApplicationInitializer及其实现类的Class
  *      对象放到onStartUp(Set<Class<?>> webApplicationInitailizerClasses,ServletContext servletContext)的
  *      Set集合参数中，然后通过反射创建WebApplicationInitializer实现类的实例，由Spring去实现剩下的初始化逻辑
- *      使用的是AnnotationConfigWebApplicationContext容器加载器
+ *      使用的是AnnotationConfigWebApplicationContext（？？？？）容器加载器
  * */
 public class MyWebAppInitializer  extends AbstractAnnotationConfigDispatcherServletInitializer {
     //返回spring容器的class对象
