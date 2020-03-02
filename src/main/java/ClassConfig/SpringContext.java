@@ -39,7 +39,7 @@ import java.util.Map;
 //定义properties文件的路径（方式三）
 @PropertySource("classpath:application.properties")
 //指定扫描的包
-@ComponentScan(basePackages = {"service"},excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION,value= EnableWebMvc.class)})
+@ComponentScan(basePackages = {"service","component"},excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION,value= EnableWebMvc.class)})
 //定义创建spring容器的java配置类（替代传统的xml文件）
 public class SpringContext {
 
