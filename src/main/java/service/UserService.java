@@ -4,15 +4,18 @@ import dao.UserDao;
 import domain.User;
 import org.apache.log4j.helpers.ThreadLocalMap;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService implements BeanNameAware {
+public class UserService implements ApplicationContextAware {
 
     @Autowired
     private UserDao dao;
@@ -37,7 +40,7 @@ public class UserService implements BeanNameAware {
         return "clear cache is successfully!!!";
     }
 
-    public void setBeanName(String name) {
-        System.out.println("-------------------执行beanname aware---------------------");
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        System.out.println("----------------执行ApplicationContextAware");
     }
 }
